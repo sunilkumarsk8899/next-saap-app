@@ -18,8 +18,10 @@ export function AuthForm() {
     setLoading(true);
 
     const supabase = createClient();
-    const action = mode === 'login' ? supabase.auth.signInWithPassword : supabase.auth.signUp;
-    const { error } = await action({ email, password });
+    const { error } =
+      mode === 'login'
+        ? await supabase.auth.signInWithPassword({ email, password })
+        : await supabase.auth.signUp({ email, password });
 
     setLoading(false);
 
