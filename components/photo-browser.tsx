@@ -36,8 +36,9 @@ export function PhotoBrowser({ isLoggedIn }: PhotoBrowserProps) {
     const params = new URLSearchParams({ per_page: '12', page: '1' });
 
     if (searchText.trim()) {
+      params.set('endpoint', 'search');
       params.set('q', searchText);
-      const res = await fetch(`/api/pexels/search?${params.toString()}`);
+      const res = await fetch(`/api/pexels?${params.toString()}`);
       const json = await res.json();
       if (!res.ok) {
         pushToast(json.error ?? 'Failed to fetch photos', 'error');
@@ -48,7 +49,8 @@ export function PhotoBrowser({ isLoggedIn }: PhotoBrowserProps) {
       return;
     }
 
-    const res = await fetch(`/api/pexels/curated?${params.toString()}`);
+    params.set('endpoint', 'curated');
+    const res = await fetch(`/api/pexels?${params.toString()}`);
     const json = await res.json();
     if (!res.ok) {
       pushToast(json.error ?? 'Failed to fetch photos', 'error');
